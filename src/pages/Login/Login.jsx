@@ -1,16 +1,33 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import { Box } from '@mui/material';
+import { Box, Card,Button } from '@mui/material';
+import {Link} from 'react-router-dom'
+import instance from '../../service/AxiosOrder.jsx';
 
 export default function Login(){
-    return(
-        <Box>
-            <h2>Login</h2>
-            <Box sx={{maxWidth:350 , minWidth:275}}>
-            <Button variant="contained">Login</Button>
 
-            </Box>
-            </Box>
+    const loginAction = () =>{
+        instance.post('/login', {
+            email: 'nipunika12345@gmail.com',
+            password: '12345'
+          })
+          .then(function (response) {
+            console.log(response.data.token);
+            localStorage.setItem('stdToken' , response.data.token)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+    }
+    return(
+        <Card sx={{width : 400 , padding : 4}}>
+            <h1>Login</h1>
+            <Button variant="contained" onClick={() => loginAction()}>Login</Button>
+            <Link to={'/register'}>
+            <h5>Register</h5>
+            </Link>
+        </Card>
+        
             
         
     )
