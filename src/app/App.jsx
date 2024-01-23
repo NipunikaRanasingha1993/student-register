@@ -11,13 +11,14 @@ function App() {
   useEffect(() =>{
     const key =localStorage.getItem('stdToken')
     console.log(key)
-    
+
     if(key!==null){
     }else{
       setLogin(false);
     }
 
-  }, []);
+  }, 
+  []);
 
   
   
