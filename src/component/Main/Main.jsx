@@ -18,6 +18,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import routes from '../../common/Navigation/routes.jsx'
+import Button from '@mui/material/Button';
+import { Routes,Route,Link, Navigate } from 'react-router-dom';
+import View from '../../pages/View/View.jsx';
+import Action from '../../pages/Action/Action.jsx';
 
 const drawerWidth = 240;
 
@@ -99,6 +104,22 @@ export default function Main(){
     setOpen(false);
   };
 
+  const getRoutes = (value)=>
+  value.map((val)=>
+  <Route key={val.key} path={val.path} element={val.component}/>
+  )
+
+  const logOutAction = () =>{
+    localStorage.removeItem('stdToken');
+    window.location.reload();
+
+  }
+
+  
+
+  
+  
+  
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -119,6 +140,7 @@ export default function Main(){
           <Typography variant="h6" noWrap component="div">
             Student
           </Typography>
+          <Button sx={{display:'flex', marginLeft:2}} onClick={()=>logOutAction()} variant="contained" color='error'>Log out</Button>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -129,8 +151,9 @@ export default function Main(){
         </DrawerHeader>
         <Divider />
         <List>
-          {['Inbox', 'Starred'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+          {routes.map((val, index) => (
+            <Link key={val.key} to={val.path}>
+            <ListItem  disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -147,9 +170,10 @@ export default function Main(){
                 >
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={val.name} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
+            </Link>
           ))}
         </List>
         <Divider />
@@ -157,20 +181,15 @@ export default function Main(){
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
-        </Typography>
+        <Box>
+          <Routes>
+            {getRoutes(routes)}
+            <Route path={'*'} element={<Navigate to={'/view'}/>}/>
+            {/* <Route path={'/action'} element={<Action/>}/>
+            <Route path={'/view'} element={<View/>}/> */}
+          </Routes>
+          
+        </Box>
     
       </Box>
     </Box>

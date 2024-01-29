@@ -5,14 +5,17 @@ import {Routes,Route,Link, Navigate} from 'react-router-dom'
 import Main from '../component/Main/Main.jsx'
 import { useEffect, useState } from 'react'
 
+
 function App() {
-  const [login,setLogin] = useState(true);
+  const [login,setLogin] = useState(false);
 
   useEffect(() =>{
     const key =localStorage.getItem('stdToken')
     console.log(key)
 
     if(key!==null){
+      setLogin(true)
+      
     }else{
       setLogin(false);
     }
@@ -33,6 +36,9 @@ function App() {
         <Route path={'*'} element={<Navigate to={'/login'}/>}/>
         <Route path={"/login"} element={<Login/>}/>
         <Route path={"/register"} element={<Register/>}/>
+        {/* {login && 
+        <div></div>
+        } */}
       </Routes>
 
         </div>
