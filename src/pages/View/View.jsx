@@ -23,18 +23,7 @@ export default function View(){
   const [open,setOpen] = useState(false);
   const [selectData,setSelectData] = useState();
 
-  // const [open, setOpen] = useState(false);
-  // const [selectValue, setSelectValue] = useState();
-
-  // const handleClickOpen = (val) => {
-  //   console.log(val);
-  //   setSelectValue(val);
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
+  
 
   const updateData = (val)=>{
     console.log(val.row);
@@ -46,13 +35,6 @@ export default function View(){
     setOpen(false);
   }
 
-  // const close = () =>{
-  //   setOpen(false);
-  // }
-
-  // const closePopop = () =>{
-  //   setPopop(false);
-  // }
 
 
   const deleteAction = (id) =>{
@@ -114,12 +96,8 @@ export default function View(){
                       age:val.student_age,
                       address:val.student_address,
                       contact:val.student_contact,
-
-
-                      
-
-
-                     });
+                    
+                    });
                   setData(array);
 
                   
@@ -153,15 +131,10 @@ export default function View(){
       
 
     </div>
-    <DialogCard data={selectData} open={open} handleClose={close}/>
+    {open &&
+    <DialogCard data={selectData} open={open} handleClose={close}/>  
+    }
     
-  
-   </Box>
+    </Box>
 
-   
-    
-
-    
-    
-)
-}
+)}

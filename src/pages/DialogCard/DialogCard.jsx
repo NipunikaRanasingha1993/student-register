@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import instance from '../../service/AxiosOrder';
 import {useState,useEffect} from 'react';
+import { List } from '@mui/material';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -15,31 +16,30 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function DialogCard({open,handleClose,data}){
 
-  const [stdName,setStdName] = useState(data?.name);
-  const [stdAge,setStdAge] = useState();
-  const [stdAddress,setStdAddress] = useState();
-  const [stdContact,setStdContact] = useState();
 
-  // const [open, setOpen] = useState(false);
-        
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
+  const [stdName,setStdName] = useState(data?.name)
+  const [stdAge,setStdAge] = useState(data?.age)
+  const [stdAddress,setStdAddress] = useState(data?.address)
+  const [stdContact,setStdContact] = useState(data?.contact)
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
 
   const dataUpdate = () => {
-    instance.put('/student/update/'+data?.id,{
+    instance.put(`/student/update/${data.id}`,{
 
         student_name:stdName,
         student_age:stdAge,
         student_address:stdAddress,
         student_contact:stdContact
          
-});
-  }
+      })
+      .then(function (response) {
+        handleClose();
+      
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
 
  
 
@@ -61,18 +61,17 @@ export default function DialogCard({open,handleClose,data}){
       noValidate
       autoComplete="off"
     >
-      
-
-
-
-      <TextField value={data?.name} id="outlined-basic" label="Enetr Your Name" variant="outlined" />
-      <TextField id="outlined-basic" label="Enter Your Age" variant="outlined" />
-      <TextField id="outlined-basic" label="Enter Your Address" variant="outlined" />
-      <TextField id="outlined-basic" label="Enter Your Contact Number" variant="outlined" />
+      <TextField value={stdName} id="outlined-basic" 
+      label="Enetr Your Name" variant="outlined" onChange={(val)=>setStdName(val.target.value)}/>
+      <TextField value={stdAge} id="outlined-basic" 
+      label="Enter Your Age" variant="outlined" onChange={(val)=>setStdAge(val.target.value)}/>
+      <TextField value={stdAddress} id="outlined-basic"
+       label="Enter Your Address" variant="outlined" onChange={(val)=>setStdAddress(val.target.value)}/>
+      <TextField value={stdContact} id="outlined-basic" 
+      label="Enter Your Contact Number" variant="outlined" onChange={(val)=>setStdContact(val.target.value)}/>
     </Box>
-          
-       
-        <DialogActions>
+
+    <DialogActions>
           <Button onClick={()=>dataUpdate()}>Save</Button>
           <Button onClick={handleClose}>Cancel</Button>
         </DialogActions>
@@ -82,7 +81,4 @@ export default function DialogCard({open,handleClose,data}){
 }
 
 
-// onChange={(val)=>setStdAge(val.target.value)}
-// onChange={(val)=>setStdAddress(val.target.value)}
-// onChange={(val)=>setStdContact(val.target.value)}
 

@@ -15,6 +15,12 @@ export default function Action(){
     const [yourContact,setYourContact] = useState('');
 
     const saveAction = () =>{
+
+      const age = parseInt(yourAge);
+      if(age<=120){
+        return;
+      }
+
         instance.post('/student/save', {
             student_name: yourName,
             student_age: yourAge,
